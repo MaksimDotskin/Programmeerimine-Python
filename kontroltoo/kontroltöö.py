@@ -1,0 +1,2 @@
+from modul import *
+sisseastumine()
