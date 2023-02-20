@@ -46,9 +46,8 @@ def sisseastumine():
             print("\nÜlikooli astunud inimeste nimekiri:")
 
             for i in range(ArvInimesed):
-                a=0
-                if tulemused[i] >= a:
-                    print(inimesed[i])
+                
+                print(inimesed[i])
 
         elif valimus == 2:          #здесь благодоря функции sorted списки сортируются по алфавиту
             print("\nInimeste loend ja nende tulemused:")
