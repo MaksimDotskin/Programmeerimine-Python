@@ -10,7 +10,18 @@ while True:
     modeSelection=input("Kas tahate mängida arvutiga(sisesta 1) või teistega mängijaga?(sisesta 2)/Kui tahate lõpetada sisestage-'3'=> ")
     if modeSelection == "1":
         print("Te valitsite mängida arvutiga")
-        name1=input("Sissestage oma nimi=> ")
+        while True:
+
+            name1=input("Sissestage oma nimi=> ")
+            if name1.isdigit():
+                print("Sisesta nimi tähtedega")
+                
+            else:
+                break
+           
+                
+            
+
         while True:
             while True:
                 gamechoises=("kivi"), ("paber"), ("käärid")
@@ -27,6 +38,9 @@ while True:
                     break
                 else:
                     print("Sisestage täpsemalt")
+       
+
+
 
 
             import random
@@ -77,8 +91,24 @@ while True:
     
     if modeSelection == "2":
             print("Te valitsite teistega mängijaga ")
-            player1=input("Mängija 1- Sissestage oma nimi=> ")
-            player2=input("Mängija 2- Sissestage oma nimi=> ")
+            while True:
+
+                player1=input("Mängija 1- Sissestage oma nimi=> ")
+                
+                if player1.isdigit():
+                    print("Sisesta nimi tähtedega")
+               
+                else:
+                    break
+
+            while True:
+                player2=input("Mängija 2- Sissestage oma nimi=> ")
+                if player2.isdigit():
+                    print("Sisesta nimi tähtedega")
+                else:
+                    break
+
+            print("Sisesta nimi tähtedega")
             while True:
 
                 while True:
