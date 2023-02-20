@@ -66,7 +66,7 @@ def sisseastumine():
 
             
             halvimadHinned = sorted(tulemused)[:n]         #здесь код показывает хучших поступивших, количество которых вводит пользователь(переменная n) используя различные функции
-            halvimadInimesed = [inimesed[tulemused.index(score)] for score in halvimadHinned]
+            halvimadInimesed = [inimesed[tulemused.index(hinne)] for hinne in halvimadHinned]
 
             print("\n{} kõige halvemate tulemustega taotlejad:".format(n))
 
