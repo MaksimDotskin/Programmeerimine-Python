@@ -1,7 +1,12 @@
- #код вышел почти на 400 строчек, но большенство функций очень похожи с маленькими отличиями, поэтому нет смысла обьянять каждую строку, и все интиитивно понятно
+ #код вышел почти на 400 строчек, но большенство функций очень похожи с маленькими отличиями, поэтому нет смысла обьянять каждую строку, и все интуитивно понятно
+#описание используемых методов из библиотеки tkinter:
+#font-задание стиля виджетам, сделал 2 фида фонта, один для главного меню, другой для остальных виджетов, выджеты уведомлений оставил по умолчанию
+#label-какой то текст на экране, можно указать функцию destroy с таймером, чтоб оно исчезало спустя пару секунд
+#button-кнопка которой назначется команлда(command)чтобы при ее нажатии срабатывала введеная функция
+#entry-поле ввода, для считывания информации с него использовал метод get()
+#delete-очистка entry, forget-скрытие виджетов, pack-активация виджета с параметром например pady,(padx), отвечающее за отступ по x/y
 
-
-from tkinter import Tk, Label, Entry, Button, Toplevel,ttk, END,font               
+from tkinter import Tk, Label, Entry, Button,ttk, END,font               
 from tkinter import PhotoImage
 import random
 import string               #импортируем нужные библиотеки
@@ -114,26 +119,26 @@ def Registreerimine_aken():       #функция регистрации
     else:
 
         hide_menu_buttons()                #скрытие кнопок меню
-        label_nimi=Label(main_window,text='Nimi',borderwidth=0)       #основные виджеты окна регистрации
+        label_nimi=Label(main_window,text='Nimi',borderwidth=0,font=font_else_vid)       #основные виджеты окна регистрации
         label_nimi.pack(pady=(10,0))
 
         entry_nimi=Entry(main_window,borderwidth=0)       #поле ввода имени
         entry_nimi.pack(pady=(0,10))
 
-        label_parool=Label(main_window,text='Parool',borderwidth=0)
+        label_parool=Label(main_window,text='Parool',borderwidth=0,,font=font_else_vid)
         label_parool.pack(pady=(0,0))
         
         entry_parool=Entry(main_window,borderwidth=0)       #поле ввода пароля
         entry_parool.pack(pady=(0,5))
        
-        button_aut_parool=Button(main_window,text='Genereerida parool',borderwidth=0,command=automaatne_parooli_genereerimine)       #кнопка автоматической генерации пароля,
+        button_aut_parool=Button(main_window,text='Genereerida parool',borderwidth=0,font=font_else_vid,command=automaatne_parooli_genereerimine)       #кнопка автоматической генерации пароля,
         #при нажатии активируется функция automaatne_parooli_genereerimine
         button_aut_parool.pack(pady=(0,0))
 
-        button_ok=Button(main_window,text='Ok',command=check_nimi_parool,borderwidth=0)               #кнопка ввода, при нажатии проверятся данные с помощью функций описаных выше
+        button_ok=Button(main_window,text='Ok',command=check_nimi_parool,borderwidth=0,font=font_else_vid)               #кнопка ввода, при нажатии проверятся данные с помощью функций описаных выше
         button_ok.pack(pady=(5,0))
 
-        button_tagasi=Button(main_window,text='Tagasi',command=menu_tagasi,borderwidth=0)               #пнока назад
+        button_tagasi=Button(main_window,text='Tagasi',command=menu_tagasi,borderwidth=0,font=font_else_vid)               #пнока назад
         button_tagasi.pack(side='left', anchor='sw',pady=(10,10),padx=(10,10))
     
 def Autoriseerimine_aken():               #окно авторизации
@@ -188,22 +193,22 @@ def Autoriseerimine_aken():               #окно авторизации
     else:
         hide_menu_buttons()               #скрытие кнопок меню
 
-        label_nimi=Label(main_window,text='Nimi',borderwidth=0)               #такие же кнопки и поля ввода, но без кнопки генерации пароля
+        label_nimi=Label(main_window,text='Nimi',borderwidth=0,font=font_else_vid)               #такие же кнопки и поля ввода, но без кнопки генерации пароля
         label_nimi.pack(pady=(10,0))
 
         entry_nimi=Entry(main_window)
         entry_nimi.pack(pady=(0,10))
 
-        label_parool=Label(main_window,text='Parool',borderwidth=0)
+        label_parool=Label(main_window,text='Parool',borderwidth=0,font=font_else_vid)
         label_parool.pack(pady=(0,0))
         
         entry_parool=Entry(main_window)
         entry_parool.pack(pady=(0,5))
 
-        button_ok=Button(main_window,text='Ok',command=check_nimi_parool,borderwidth=0)
+        button_ok=Button(main_window,text='Ok',command=check_nimi_parool,borderwidth=0,font=font_else_vid)
         button_ok.pack(pady=(5,0))
 
-        button_tagasi=Button(main_window,text='Tagasi',command=menu_tagasi,borderwidth=0)
+        button_tagasi=Button(main_window,text='Tagasi',command=menu_tagasi,borderwidth=0,font=font_else_vid)
         button_tagasi.pack(side='left', anchor='sw',pady=(10,10),padx=(10,10))
 
 def nimi_parroli_muutmine_aken():               #изменение пароля
@@ -259,28 +264,28 @@ def nimi_parroli_muutmine_aken():               #изменение пароля
     if sisse_log==True:               #здесь уже проверка идет наоборот на то, что если пользователь еще не авторизован, то он соотвесвенно не может менять ничего пока не войдет
         hide_menu_buttons()
 
-        label_1=Label(main_window,text='Sisestage vanad nimi ja parool',borderwidth=0)
+        label_1=Label(main_window,text='Sisestage vanad nimi ja parool',borderwidth=0,font=font_else_vid)
         label_1.pack(pady=(10,0))
 
-        label_2=Label(main_window,text='pärast muudatust peate uuesti sisse logima',borderwidth=0)               #виджеты почти теже, что и ранее 
+        label_2=Label(main_window,text='pärast muudatust peate uuesti sisse logima',borderwidth=0,font=font_else_vid)               #виджеты почти теже, что и ранее 
         label_2.pack(pady=(10,0))
 
-        label_nimi=Label(main_window,text='Nimi',borderwidth=0)
+        label_nimi=Label(main_window,text='Nimi',borderwidth=0,font=font_else_vid)
         label_nimi.pack(pady=(10,0))
 
         entry_nimi=Entry(main_window)
         entry_nimi.pack(pady=(0,10))
 
-        label_parool=Label(main_window,text='Parool',borderwidth=0)
+        label_parool=Label(main_window,text='Parool',borderwidth=0,font=font_else_vid)
         label_parool.pack(pady=(0,0))
         
         entry_parool=Entry(main_window)
         entry_parool.pack(pady=(0,5))
 
-        button_ok=Button(main_window,text='Ok',command=check_nimi_parool,borderwidth=0)
+        button_ok=Button(main_window,text='Ok',command=check_nimi_parool,borderwidth=0,font=font_else_vid)
         button_ok.pack(pady=(5,0))
 
-        button_tagasi=Button(main_window,text='Tagasi',command=menu_tagasi,borderwidth=0)
+        button_tagasi=Button(main_window,text='Tagasi',command=menu_tagasi,borderwidth=0,font=font_else_vid)
         button_tagasi.pack(side='left', anchor='sw',pady=(10,10),padx=(10,10))
     else:
         label1=Label(main_window,text=('Te EI ole juba registreeritud ja autoriseeritud'),borderwidth=0)
@@ -327,7 +332,7 @@ def unustanud_parooli_taastamine_aken():               #востановлени
             label_1.destroy()
             label_parool.destroy()
             button_ok.destroy()
-            label_1=Label(main_window,text=('Sisestage uus parool'),borderwidth=0)
+            label_1=Label(main_window,text=('Sisestage uus parool'),borderwidth=0,font=font_else_vid)
             label_1.pack()
             uus_parool=entry_parool.get()
 
@@ -342,7 +347,7 @@ def unustanud_parooli_taastamine_aken():               #востановлени
                     entry_parool.delete(0,END)
                     return paroolid
 
-            button_ok2=Button(main_window,text='Ok',command=replace_parool,borderwidth=0)
+            button_ok2=Button(main_window,text='Ok',command=replace_parool,borderwidth=0,font=font_else_vid)
             button_ok2.pack(pady=(5,0))
 
         else:
@@ -353,19 +358,19 @@ def unustanud_parooli_taastamine_aken():               #востановлени
     if sisse_log==True:
         hide_menu_buttons()
 
-        label_1=Label(main_window,text=('Parooli taastamiseks peate sisestama viimase meeldejääva parooli'),borderwidth=0)               #пояснение требований для смены пароля
+        label_1=Label(main_window,text=('Parooli taastamiseks peate sisestama viimase meeldejääva parooli'),borderwidth=0,font=font_else_vid)               #пояснение требований для смены пароля
         label_1.pack(pady=(10,0))
 
-        label_parool=Label(main_window,text=('Parool'),borderwidth=0)
+        label_parool=Label(main_window,text=('Parool'),borderwidth=0,font=font_else_vid)
         label_parool.pack(pady=(10,0))
 
         entry_parool=Entry(main_window)
         entry_parool.pack(pady=(0,0))
 
-        button_ok=Button(main_window,text='Ok',command=check_parool,borderwidth=0)
+        button_ok=Button(main_window,text='Ok',command=check_parool,borderwidth=0,font=font_else_vid)
         button_ok.pack(pady=(5,0))
 
-        button_tagasi=Button(main_window,text='Tagasi',command=menu_tagasi,borderwidth=0)
+        button_tagasi=Button(main_window,text='Tagasi',command=menu_tagasi,borderwidth=0,font=font_else_vid)
         button_tagasi.pack(side="bottom",pady=(10,10),padx=(10,10))
 
     else:
@@ -379,19 +384,22 @@ main_window.geometry('600x250')
 main_window.resizable(False, False)               #фуенкция чтобы пользователь не мог менять размер окна
 gradient_image = PhotoImage(file="gradient.png")
 
+font_main_menu= ('Calibri', 16)
+font_else_vid=('Calibri', 14)
+
 label_bg = Label(main_window, image=gradient_image)               #установка градиентого фона, с использованием файла пнг и лейбла растянутого на весбфон окна
 label_bg.place(x=0, y=0, relwidth=1, relheight=1) 
 
-btn_reg = Button(main_window,text='Registreerimine',borderwidth=0,command=Registreerimine_aken)               #пнопка для регистарации
+btn_reg = Button(main_window,text='Registreerimine',borderwidth=0,command=Registreerimine_aken,font=font_main_menu)               #пнопка для регистарации
 btn_reg.pack(pady=(10,10))
 
-btn_aut = Button(main_window, text='Autoriseerimine',borderwidth=0, command=Autoriseerimine_aken)               #авторизации
+btn_aut = Button(main_window, text='Autoriseerimine',borderwidth=0, command=Autoriseerimine_aken,font=font_main_menu)               #авторизации
 btn_aut.pack(pady=(10,10))
 
-btn_mut = Button(main_window, text='Nime või parooli muutmine',borderwidth=0, command=nimi_parroli_muutmine_aken)               #изменения имени и пароля
+btn_mut = Button(main_window, text='Nime või parooli muutmine',borderwidth=0, command=nimi_parroli_muutmine_aken,font=font_main_menu)               #изменения имени и пароля
 btn_mut.pack(pady=(10,10))
 
-btn_un = Button(main_window, text='Unustanud parooli taastamine',borderwidth=0, command=unustanud_parooli_taastamine_aken)               #востановление утеряного пароля
+btn_un = Button(main_window, text='Unustanud parooli taastamine',borderwidth=0, command=unustanud_parooli_taastamine_aken,font=font_main_menu)               #востановление утеряного пароля
 btn_un.pack(pady=(10,10))
 
 main_window.mainloop()               #запуск окна
