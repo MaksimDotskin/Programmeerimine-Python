@@ -125,7 +125,7 @@ def Registreerimine_aken():       #функция регистрации
         entry_nimi=Entry(main_window,borderwidth=0)       #поле ввода имени
         entry_nimi.pack(pady=(0,10))
 
-        label_parool=Label(main_window,text='Parool',borderwidth=0,,font=font_else_vid)
+        label_parool=Label(main_window,text='Parool',borderwidth=0,font=font_else_vid)
         label_parool.pack(pady=(0,0))
         
         entry_parool=Entry(main_window,borderwidth=0)       #поле ввода пароля
@@ -381,11 +381,11 @@ def unustanud_parooli_taastamine_aken():               #востановлени
 main_window = Tk()
 main_window.title('Autoriseerimine/registreerimine')               #основное окно
 main_window.geometry('600x250')
-main_window.resizable(False, False)               #фуенкция чтобы пользователь не мог менять размер окна
-gradient_image = PhotoImage(file="gradient.png")
+main_window.resizable(False, False)               #функция чтобы пользователь не мог менять размер окна
+gradient_image = PhotoImage(file="gradient.png")  #чтение файла с градиентовым фоном
 
-font_main_menu= ('Calibri', 16)
-font_else_vid=('Calibri', 14)
+font_main_menu= ('Calibri', 16)      #стиль с увеличенным размером для кнопок главного меню
+font_else_vid=('Calibri', 14)   #стиль для остальных виджетов
 
 label_bg = Label(main_window, image=gradient_image)               #установка градиентого фона, с использованием файла пнг и лейбла растянутого на весбфон окна
 label_bg.place(x=0, y=0, relwidth=1, relheight=1) 
