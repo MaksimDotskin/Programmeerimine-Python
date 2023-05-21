@@ -4,7 +4,7 @@
 #label-какой то текст на экране, можно указать функцию destroy с таймером, чтоб оно исчезало спустя пару секунд
 #button-кнопка которой назначется команлда(command)чтобы при ее нажатии срабатывала введеная функция
 #entry-поле ввода, для считывания информации с него использовал метод get()
-#delete-очистка entry, forget-скрытие виджетов, pack-активация виджета с параметром например pady,(padx), отвечающее за отступ по x/y
+#delete-очистка entry, pack_forget-скрытие виджетов, pack-активация виджета с параметром например pady,(padx), отвечающее за отступ по x/y
 
 from tkinter import Tk, Label, Entry, Button,ttk, END,font               
 from tkinter import PhotoImage
@@ -21,12 +21,14 @@ def hide_menu_buttons():              #функция для скртия кно
         btn_aut.pack_forget()
         btn_mut.pack_forget()
         btn_un.pack_forget()
+        button_valja.pack_forget()
         
 def show_menu_buttons():       #для позврата кнопок главного меню
     btn_reg.pack(pady=(10,10))
     btn_aut.pack(pady=(10,10))
     btn_mut.pack(pady=(10,10))
     btn_un.pack(pady=(10,10))
+    button_valja.pack(pady=(10,10))
 
 def Registreerimine_aken():       #функция регистрации
 
@@ -378,6 +380,19 @@ def unustanud_parooli_taastamine_aken():               #востановлени
         label1.pack(side='bottom', anchor='se')
         label1.after(2000,label1.destroy)
 
+def logi_valja():     #функция выхода из аккаунта
+    global sisse_log
+    if sisse_log==True:    #если вошел
+        label=Label(main_window,text='Olete välja logitud',borderwidth=0)
+        label.pack(side='bottom', anchor='se')
+        label.after(4000,label.destroy)
+        sisse_log=False
+    else:     #если еще не вошел
+        label=Label(main_window,text='Te ei olete juba autoriseeritud',borderwidth=0)
+        label.pack(side='bottom', anchor='se')
+        label.after(4000,label.destroy)
+
+
 main_window = Tk()
 main_window.title('Autoriseerimine/registreerimine')               #основное окно
 main_window.geometry('600x250')
@@ -401,5 +416,8 @@ btn_mut.pack(pady=(10,10))
 
 btn_un = Button(main_window, text='Unustanud parooli taastamine',borderwidth=0, command=unustanud_parooli_taastamine_aken,font=font_main_menu)               #востановление утеряного пароля
 btn_un.pack(pady=(10,10))
+
+button_valja=Button(main_window, text='Logi välja',borderwidth=0, command=logi_valja,font=font_main_menu)               #выйти из системы
+button_valja.pack(pady=(10,10))
 
 main_window.mainloop()               #запуск окна
