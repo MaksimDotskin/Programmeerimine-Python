@@ -47,10 +47,9 @@ def choise_keel(i):
         text2 = values2[1]
         if selected_keel1!=selected_keel2:
             if i==1:
-                tolge_window(f1,f2,text2,text1)
+                tolge_window(f2,f1,text1,text2)
             elif i==2:
-                kont_win(f1,f2,text1)
-                
+                kont_win(f2,f1,text1)
                 
             delete_menu(option_est_1,option_est_2,option_ing_1,option_ing_2,option_rus_1,option_rus_2,ok_button,label_keel_1,label_keel_2)
         else:
@@ -100,6 +99,7 @@ def tolge_window(fail1,fail2,keel1,keel2):
     def ok():
         sõna=entry_est_sona.get()
         sõna=sõna.lower()
+
         if len(sõna)==0:
             create_notif("Sisestage sõna","red")
         else:
@@ -111,6 +111,7 @@ def tolge_window(fail1,fail2,keel1,keel2):
                 
             elif resault_status==False:
                 create_notif(resault_text,"yellow")
+                tõlginud_sõna.delete(0,END)
     
 
     ok_button=ttk.Button(main,text="Ok",command=ok,width=10)
@@ -231,7 +232,7 @@ def kont_win(f1,f2,keel):
     list2=[]
 
     with open(f1, 'r', encoding='utf-8') as file1, \
-    open(f2, 'r', encoding='utf-8') as file2:
+        open(f2, 'r', encoding='utf-8') as file2:
         
         for line in file1:
             word = line.strip()  
@@ -241,24 +242,59 @@ def kont_win(f1,f2,keel):
             word = line.strip() 
             list2.append(word)
 
-        global i,õiged,valled,lens
+        global i,õiged,valled,lens,sõna
         i=0
         õiged=0
         valled=0
         lens=len(list1)
-        
-    def edasi(i,õiged,valled,lens):
-        label.pack(pady="7")
-        entry.pack()
-        button_edasi.config(text="Edasi")
-                
-        sõna=list2[i]
-        tõlges=list1[i-1]
+        sõna="start"
 
+        label_index=ttk.Label(main,text="Küsimuste arv(mitte rohkem {})".format(lens))
+        entry_index=Entry(main)
+        label_index.pack(pady=(7,0))
+        entry_index.pack(pady=7)
+
+
+        list1r=[]
+        list2r=[]
+
+        def ok():
+            global index
+            index=int(entry_index.get())
+            if isinstance(index,int):
+                if index<=lens:
+                    for g in range(0,index+1):
+                        s=random.randint(0,index)
+                        w1=list1[s]
+                        w2=list2[s]
+                        list1r.append(w1)
+                        list2r.append(w2)
+                        delete_menu(label_index,entry_index,button_ok)
+                        button_edasi.pack(pady=10)
+                        list1.remove(w1)
+                        list2.remove(w2)
+                else:
+                    create_notif("Nii suur arv","red")
+            else:
+                create_notif("Sisestage arv","red")
+
+        
+    def edasi(i,õiged,valled):
+   
+        label.pack(pady=(7,0))
+        entry.pack(pady=7)
+        button_edasi.config(text="Edasi")
+ 
+        sõna=list1r[i]
+        tõlges=list2r[i-1]
+
+        print(sõna,tõlges)
+     
+       
         i=i+1
         resault=entry.get()
         resault=resault.lower()
-
+       
         if i>=2 :
             if resault==tõlges:
                 create_notif("Õige","green")
@@ -269,7 +305,7 @@ def kont_win(f1,f2,keel):
                 valled=valled+1
                 create_notif(notif,"red")
 
-        if i==lens:
+        if i==index+1:
             if resault==tõlges:
                 create_notif("Õige","green")
                 õiged=õiged+1
@@ -280,33 +316,42 @@ def kont_win(f1,f2,keel):
                 create_notif(notif,"red")
             delete_menu(label,entry,button_edasi)
             global label_resault
-            label_resault=ttk.Label(main,text=("Tulemus:\n Õiged= {},Valled= {}".format(õiged,valled)))
+            label_resault=ttk.Label(main,text=("Tulemus:\n Õiged= {},Valled= {}".format(õiged,valled-1)))
             label_resault.pack(pady="7")
             button_tagasi2.pack(side='bottom', anchor='se',padx="10",pady="10")
 
-        if lens-1==i:
+        if index==i:
             button_edasi.config(text="Lõpeta")
 
+        
         label.config(text="Tõlge {} {} keelse".format(sõna, keel))
         entry.delete(0,END)
-        return i,õiged,valled,lens
+        return i,õiged,valled
 
     def edasi_call():
         
-        global i,õiged,valled,lens
-        i,õiged,valled,lens=edasi(i,õiged,valled,lens)
+        
+        global i,õiged,valled
+        i,õiged,valled=edasi(i,õiged,valled)
+        
 
     label = ttk.Label()
     entry=Entry(main)
     button_edasi=ttk.Button(main,text="Start",command=edasi_call)
-    button_edasi.pack()
+    button_ok=ttk.Button(main,text="OK",command=ok)
+    button_ok.pack()
+    
+    
     button_tagasi2=ttk.Button(main,text="Tagasi",command=tagasi,width="15")
+
+    
+    
         
 
 def vaata_win():
     main.title("Sõnastikuse vaatamine")
     def tagasi():
-        delete_menu(label_rus,label_est,button_tagasi,label_ing)
+        delete_menu(label_rus,label_est,button_tagasi,label_ing,frame)
         return_main_menu()
 
     delete_main_menu()
@@ -320,27 +365,29 @@ def vaata_win():
     with open('eng.txt','r',encoding='utf-8') as ing_file:
         ing=ing_file.read()
 
-    
+    frame = ttk.Label(main)
+    frame.pack()
 
-    label_rus=ttk.Label(main,text="Vene sõnad:\n{}".format(rus))
-    label_rus.pack()
+    frame.pack(anchor="center")
 
-    label_est=ttk.Label(main,text="Eesti sõnad:\n{}".format(est))
-    label_est.pack()
+    label_rus=ttk.Label(frame,text="Vene sõnad:\n{}".format(rus),width="15")
+    label_rus.pack(side="left",padx=(10,10),pady=10)
 
-    label_ing=ttk.Label(main,text="Inglise sõnad:\n{}".format(ing))
-    label_ing.pack()
+    label_est=ttk.Label(frame,text="Eesti sõnad:\n{}".format(est),width="15")
+    label_est.pack(side="left",padx=(10,10),pady=10)
+
+
+    label_ing=ttk.Label(frame,text="Inglise sõnad:\n{}".format(ing),width="15")
+    label_ing.pack(side="left",padx=(10,10),pady=10)
         
     button_tagasi=ttk.Button(main,text="Tagasi",command=tagasi)
-    button_tagasi.pack()
+    button_tagasi.pack(side='bottom', anchor='se',padx="10",pady="10")
     
 def call_choise_keel_tolk():
     choise_keel(1)
 
 def call_choise_keel_tead():
     choise_keel(2)
-
-
 
 
 def toggle_theme():
@@ -353,8 +400,6 @@ def toggle_theme():
 main=Tk()
 main.title("Sõnastik")
 main.geometry("800x450")
-
-
 
 
 style = ttk.Style()
@@ -409,7 +454,6 @@ button_valja.pack(pady="7")
 
 button_settings=ttk.Button(main,text="Muuta teem",command=toggle_theme,width=15)
 button_settings.pack(pady="7")
-
 
 
 main.mainloop()

@@ -1,11 +1,34 @@
 import string
 import random
 
-paroolid=[]
-loginid=[]
 autoriseeritud=None
 sisse_loogitud_login=None
 sisse_loogitud_parol=None
+
+
+def loe_fail_list(faili_nimi):
+    global loginid
+    loginid = []
+    global paroolid
+    paroolid = []
+
+    with open(faili_nimi, 'r') as file:
+        for line in file:
+            login, password = line.strip().split(' ')
+            loginid.append(login)
+            paroolid.append(password)
+    print(loginid)
+    print(paroolid)
+
+    return loginid, paroolid
+
+faili_nimi='log.txt'
+
+
+def write_fail_list():
+    with open('log.txt', 'a') as file:
+        for nimi, parool in zip(loginid, paroolid):
+            file.write(nimi + ' ' + parool + '\n')
 
 def registreerimine():
     while True:
@@ -191,4 +214,3 @@ sisestatud märgid ei ühti sisestatud sisselogimise kaotatud parooliga""")
             break
         else:
             print("Vale login")
-

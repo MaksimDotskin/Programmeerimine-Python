@@ -11,17 +11,40 @@ from tkinter import PhotoImage
 import random
 import string               #импортируем нужные библиотеки
 
-paroolid = []       #создаем списки с именами и паролями
-nimed = []
+
+def loe_fail_list(faili_nimi):
+    global nimed
+    nimed = []
+    global paroolid
+    paroolid = []
+
+    with open(faili_nimi, 'r') as file:
+        for line in file:
+            login, password = line.strip().split(' ')
+            nimed.append(login)
+            paroolid.append(password)
+    print(nimed)
+    print(paroolid)
+
+    return nimed, paroolid
+
+faili_nimi='log.txt'
+loe_fail_list(faili_nimi)
+
+def write_fail_list():
+    with open('log.txt', 'a') as file:
+        for nimi, parool in zip(nimed, paroolid):
+            file.write(nimi + ' ' + parool + '\n')
 
 sisse_log=False       #переменная со статусом входа
 
 def hide_menu_buttons():              #функция для скртия кнопок главного меню
-        btn_reg.pack_forget()
-        btn_aut.pack_forget()
-        btn_mut.pack_forget()
-        btn_un.pack_forget()
-        button_valja.pack_forget()
+    btn_reg.pack_forget()
+    btn_aut.pack_forget()
+    btn_mut.pack_forget()
+    btn_un.pack_forget()
+    button_valja.pack_forget()
+    button_close.pack_forget()
         
 def show_menu_buttons():       #для позврата кнопок главного меню
     btn_reg.pack(pady=(10,10))
@@ -29,6 +52,7 @@ def show_menu_buttons():       #для позврата кнопок главн�
     btn_mut.pack(pady=(10,10))
     btn_un.pack(pady=(10,10))
     button_valja.pack(pady=(10,10))
+    button_close.pack(pady=(10,10))
 
 def Registreerimine_aken():       #функция регистрации
 
@@ -102,6 +126,7 @@ def Registreerimine_aken():       #функция регистрации
             parool=entry_parool.get()
             nimed.append(nimi)
             paroolid.append(parool)
+            
             label=Label(main_window,text='Olete registreeritud',borderwidth=0)
             label.pack(side='bottom', anchor='se')
             label.after(2000,label.destroy)
@@ -298,11 +323,12 @@ def unustanud_parooli_taastamine_aken():               #востановлени
     #здесь в силу отсустия ввода адреса эд почты сделать сброс по почте нельзя
 
     def menu_tagasi():
-        label_1.destroy()
+        label_1a.destroy()
         label_parool.destroy()
         entry_parool.destroy()
         button_ok.destroy()
         button_tagasi.destroy()
+        
         show_menu_buttons()
 
     def check_parool_sim():
@@ -331,11 +357,12 @@ def unustanud_parooli_taastamine_aken():               #востановлени
         vana_parool=entry_parool.get()
         if vana_parool in paroolid:
             entry_parool.delete(0,END)
-            label_1.destroy()
+            label_1a.destroy()
             label_parool.destroy()
             button_ok.destroy()
             label_1=Label(main_window,text=('Sisestage uus parool'),borderwidth=0,font=font_else_vid)
             label_1.pack()
+            label_1.after(10000,label1.destroy)
             uus_parool=entry_parool.get()
 
             def replace_parool():
@@ -360,8 +387,8 @@ def unustanud_parooli_taastamine_aken():               #востановлени
     if sisse_log==True:
         hide_menu_buttons()
 
-        label_1=Label(main_window,text=('Parooli taastamiseks peate sisestama viimase meeldejääva parooli'),borderwidth=0,font=font_else_vid)               #пояснение требований для смены пароля
-        label_1.pack(pady=(10,0))
+        label_1a=Label(main_window,text=('Parooli taastamiseks peate sisestama viimase meeldejääva parooli'),borderwidth=0,font=font_else_vid)               #пояснение требований для смены пароля
+        label_1a.pack(pady=(10,0))
 
         label_parool=Label(main_window,text=('Parool'),borderwidth=0,font=font_else_vid)
         label_parool.pack(pady=(10,0))
@@ -395,7 +422,7 @@ def logi_valja():     #функция выхода из аккаунта
 
 main_window = Tk()
 main_window.title('Autoriseerimine/registreerimine')               #основное окно
-main_window.geometry('600x250')
+main_window.geometry('600x300')
 main_window.resizable(False, False)               #функция чтобы пользователь не мог менять размер окна
 gradient_image = PhotoImage(file="gradient.png")  #чтение файла с градиентовым фоном
 
@@ -420,4 +447,6 @@ btn_un.pack(pady=(10,10))
 button_valja=Button(main_window, text='Logi välja',borderwidth=0, command=logi_valja,font=font_main_menu)               #выйти из системы
 button_valja.pack(pady=(10,10))
 
+button_close=Button(main_window, text='Salvesta andmed',borderwidth=0, command=write_fail_list,font=font_main_menu)
+button_close.pack(pady=(10,10))
 main_window.mainloop()               #запуск окна
